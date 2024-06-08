@@ -14,7 +14,29 @@ const router = createRouter({
       name: 'login',
       component: () =>import('@/views/Login.vue')
     },
-    
+    {
+      path:'/admin',
+      name:'admin',
+      component: () =>import('../views/admin/AdminLayout.vue'),
+      children:[
+        {
+          path:'/admin/propiedades',
+          name:'admin-propiedades',
+          component: () =>import('../views/admin/AdminView.vue'),
+        },
+        {
+          path:'/admin/Nueva',
+          name:'Nueva-propiedad',
+          component: () =>import('../views/admin/NuevaPropiedadView.vue'),
+        },
+        {
+          path:'/admin/editar/:id',
+          name:'Editar-propiedad',
+          component: () =>import('../views/admin/EditarPropiedadView.vue'),
+        },
+      ]
+    },
+
   ]
 })
 
