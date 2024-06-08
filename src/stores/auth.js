@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 export const useAuthStore = defineStore('auth',()=>{
     const auth = useFirebaseAuth()
 
+    const authUser = ref ({})
     const errorMessage = ref('')
 
     const errorCode = {
@@ -20,7 +21,9 @@ export const useAuthStore = defineStore('auth',()=>{
     const login =({email,password})=>{
         signInWithEmailAndPassword(auth,email,password)
         .then((response)=>{
-            console.log(response)
+            const user = response.user
+            authUser.value = user
+
         })
         .catch(error=>{
             errorMessage.value = errorCode[error.code];
