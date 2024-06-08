@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { onAuthStateChanged } from 'firebase/auth'
+import { useFirebaseAuth } from 'vuefire'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -41,13 +43,40 @@ const router = createRouter({
   ]
 })
 // guard de navegacion
-router.beforeEach((to,from,next)=>{
-  const requiredAuth = to.matched.some(url => url.meta.requiredAuth)
-  if(requiredAuth){
+router.beforeEach(async (to,from,next)=>{
+
+  const requiresAuth = to.matched.some(url => url.meta.requiresAuth)
+  
+  if(requiresAuth){
       //comprobar auth
-      
-    }else{
-      next()
+    try{
+
+      await authenticateUser()
+      next();
+
+    }catch(error){
+      console.log(error)
+      next({name:'login'})
     }
+
+  }else{
+    next()
+  }
+
 })
+
+function authenticateUser(){
+  
+  const auth = useFirebaseAuth()
+
+  return new Promise((resolve,reject)=>{
+    onAuthStateChanged( auth,(user)=>{
+      if(user){
+        resolve();
+      }else{
+        reject()
+      }
+    })
+  });
+}
 export default router
