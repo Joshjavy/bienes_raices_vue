@@ -30,6 +30,14 @@
             Inicia Sesión con tu cuenta
         </v-card-subtitle>
 
+        <v-alert
+            class="my-5"
+            color="error"
+            icon="$success"
+            title="Alert title"
+            text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore voluptatibus..."
+            ></v-alert>
+
         <v-form class="mt-5">
             <v-text-field
                 type="email"
