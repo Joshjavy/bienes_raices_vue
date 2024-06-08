@@ -1,3 +1,5 @@
+import { ref, computed } from 'vue'
+
 import { defineStore } from 'pinia'
 import { useFirebaseAuth } from 'vuefire'
 import { signInWithEmailAndPassword } from 'firebase/auth'
@@ -5,8 +7,12 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 
 export const useAuthStore = defineStore('auth',()=>{
     const auth = useFirebaseAuth()
+
+    const errorMessage = ref('')
+
     const errorCode = {
-        'auth/invalid-credential':'Credencial invalido'
+        'auth/invalid-credential':'Credencial invalido',
+        'auth/too-many-requests' : 'Demasiados intentos',
     }
 
 
@@ -17,11 +23,18 @@ export const useAuthStore = defineStore('auth',()=>{
             console.log(response)
         })
         .catch(error=>{
-            console.log(errorCode[error.code])
+            errorMessage.value = errorCode[error.code];
+            console.log(error.code)
         })
     }
 
+    const hasError = computed(()=>{
+        return errorMessage.value;
+    })
+
     return {
-        login
+        login,
+        hasError,
+        errorMessage,
     }
 })

@@ -31,11 +31,12 @@
         </v-card-subtitle>
 
         <v-alert
+            v-if="auth.hasError"
             class="my-5"
             color="error"
             icon="$success"
-            title="Alert title"
-            text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore voluptatibus..."
+            :title="auth.errorMessage"
+            
             ></v-alert>
 
         <v-form class="mt-5">
