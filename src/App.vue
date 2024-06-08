@@ -20,7 +20,7 @@ const { isAuth } = storeToRefs(auth)
         <template v-slot:append>
         <div v-if="isAuth">
           <v-btn :to="{ name: 'admin-propiedades' }">Admin</v-btn>
-          <v-btn>Salir</v-btn>
+          <v-btn @click="auth.logout">Salir</v-btn>
         </div>
           
           <div v-else>
