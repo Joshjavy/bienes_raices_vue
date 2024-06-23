@@ -16,7 +16,7 @@
     const wc = useField('wc')
     const estacionamiento = useField('estacionamiento')
     const descripcion = useField('descripcion')
-    const alberca =useField('')
+    const alberca =useField('alberca')
 
     const submit = handleSubmit((values)=>{
         console.log(values)
@@ -46,13 +46,16 @@
                 :error-messages="imagen.errorMessage.value"
                 />
 
-            <v-text-field class="mb-5" label="Precio" />
+            <v-text-field class="mb-5" label="Precio" 
+                v-model="precio.value.value"
+                :error-messages="precio.errorMessage.value"
+            />
             <v-row>
 
                 <v-col cols="12" md="4">
                     <v-select label="Habitaciones" class="mb-5" :items="items" 
-                        v-model="precio.value.value"
-                        :error-messages="precio.errorMessage.value"
+                        v-model="habitaciones.value.value"
+                        :error-messages="habitaciones.errorMessage.value"
                     />
                 </v-col>
 
@@ -77,6 +80,7 @@
 
                 <v-checkbox
                     label="Alberca?"
+                    v-model="alberca"
                 />
 
                 <v-btn
