@@ -1,9 +1,10 @@
 <script setup>
     import { useForm,useField} from 'vee-validate'
+    import { collection, addDoc } from "firebase/firestore"; 
     import { validationSchema,imageSchema } from '@/validation/propiedadSchema'
-
+    import { useFirestore } from 'vuefire'
     const items = [1, 2, 3, 4, 5]
-
+    const db = useFirestore();
     const { handleSubmit } = useForm({validationSchema : {
         ...validationSchema,
         ...imageSchema
@@ -18,8 +19,14 @@
     const descripcion = useField('descripcion')
     const alberca =useField('alberca')
 
-    const submit = handleSubmit((values)=>{
-        console.log(values)
+    const submit = handleSubmit( async(values)=>{
+        const {imagen, ...propiedad} = values
+        const docRef = await addDoc(collection(db, "propiedades"), {
+        name: "Tokyo",
+        country: "Japan"
+        });
+        console.log("Document written with ID: ", docRef.id);
+
     })
 
 </script>
