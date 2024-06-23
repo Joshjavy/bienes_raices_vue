@@ -29,7 +29,7 @@ const router = createRouter({
         },
         {
           path:'/admin/Nueva',
-          name:'Nueva-propiedad',
+          name:'nueva-propiedad',
           component: () =>import('../views/admin/NuevaPropiedadView.vue'),
         },
         {
@@ -69,14 +69,17 @@ function authenticateUser(){
   
   const auth = useFirebaseAuth()
 
-  return new Promise((resolve,reject)=>{
-    onAuthStateChanged( auth,(user)=>{
+  return new Promise ((resolve, reject)=>{
+    const unsubscribe = onAuthStateChanged(auth,(user)=>{
+
+      unsubscribe()
       if(user){
-        resolve();
+        resolve(user)
       }else{
-        reject()
+        reject
       }
     })
-  });
+
+  })
 }
 export default router
