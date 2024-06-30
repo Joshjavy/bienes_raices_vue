@@ -5,11 +5,11 @@
     import { useRouter } from 'vue-router'
     import { validationSchema,imageSchema } from '@/validation/propiedadSchema'
     import  useImage  from '@/composables/useImage'
-    
+
 
     const items = [1, 2, 3, 4, 5]
 
-    const { uploadImage } = useImage()
+    const { url, uploadImage,image } = useImage()
 
     const router = useRouter()
     const db = useFirestore();
@@ -32,7 +32,8 @@
     const submit = handleSubmit( async(values)=>{
         const {imagen, ...propiedad} = values
         const docRef = await addDoc(collection(db, "propiedades"), {
-            ...propiedad
+            ...propiedad,
+            image:url.value
         });
         
         if(docRef.id){
@@ -67,6 +68,10 @@
                 :error-messages="imagen.errorMessage.value"
                 @change="uploadImage"
                 />
+                <div v-if="image" class="my-5">
+                    <p class="font-weight-bold"> Imagen propiedad: </p>
+                    <img class="w-50" :src="image" alt="">
+                </div>
 
             <v-text-field class="mb-5" label="Precio" 
                 v-model="precio.value.value"
