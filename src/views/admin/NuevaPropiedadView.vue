@@ -13,7 +13,7 @@
     const items = [1, 2, 3, 4, 5]
 
     const { url, uploadImage,image } = useImage()
-    const { zoom,center} = useLocationMap() 
+    const { zoom,center,pin} = useLocationMap() 
 
 
     const router = useRouter()
@@ -38,7 +38,8 @@
         const {imagen, ...propiedad} = values
         const docRef = await addDoc(collection(db, "propiedades"), {
             ...propiedad,
-            image:url.value
+            image:url.value,
+            ubicacion: center.value,
         });
         
         if(docRef.id){
@@ -126,6 +127,7 @@
                         <LMarker
                             :lat-lng="center"
                             draggable
+                            @moveend="pin"
                         />
                         <LTileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
