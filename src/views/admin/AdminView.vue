@@ -29,6 +29,7 @@
                         color="info"
                         variant="flat"
                         class="mr-2"
+                        :to="{name:'editar-propiedad', params:{id: propiedad.id}}"
                     >
                         Editar
                     </v-btn>
