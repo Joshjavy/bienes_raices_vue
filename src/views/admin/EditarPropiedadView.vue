@@ -1,4 +1,5 @@
 <script setup>
+import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useFirestore, useDocument } from 'vuefire'
 import { doc, updateDoc } from 'firebase/firestore'
@@ -31,14 +32,26 @@ const estacionamiento = useField('estacionamiento')
 const descripcion = useField('descripcion')
 const alberca = useField('alberca')
 
-
 // obtener la propiedad a editar
 const db = useFirestore()
 const docRef = doc(db, 'propiedades', route.params.id)
 const propiedad = useDocument(docRef)
 
-const submit = handleSubmit(values=>{
-    
+watch(propiedad, (propiedad) => {
+    titulo.value.value = propiedad.titulo
+    precio.value.value = propiedad.precio
+    habitaciones.value.value = propiedad.habitaciones
+    wc.value.value = propiedad.wc
+    estacionamiento.value.value = propiedad.estacionamiento
+    descripcion.value.value = propiedad.descripcion
+    alberca.value.value = propiedad.alberca
+    center.value = propiedad.ubicacion
+})
+
+
+
+const submit = handleSubmit(values => {
+
 })
 
 
