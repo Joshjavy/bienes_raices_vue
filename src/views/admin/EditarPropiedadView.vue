@@ -52,7 +52,8 @@ const submit = handleSubmit(async values => {
 
     const {imagen,...propiedad} = values
     if(image.value){
-        console.log('hay imagen')
+        const data = {...propiedad,image:url.value,ubicacion: center.value,}
+        await updateDoc(docRef,data)
     }else{
         const data = {...propiedad,ubicacion: center.value,}
         await updateDoc(docRef,data)
@@ -86,7 +87,7 @@ const submit = handleSubmit(async values => {
                 <img 
                     v-if="image"
                     class="w-50 "
-                :src="propiedad?.image" />
+                :src="image" />
 
                 <img 
                     v-else
