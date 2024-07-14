@@ -1,7 +1,20 @@
 <script setup>
-
+    import usePropiedades from '@/composables/usePropiedades'
+    import Propiedad from '@/components/Propiedad.vue'
+    const { propiedadesCollecction } = usePropiedades()
 </script>
 
 <template>
-    <h1 class="text-center">Vue Bienes Raices</h1>
+    <h1 class="text-center">Nuestras propiedades</h1>
+
+    <v-card flat class="py-10">
+        <v-row>
+            <Propiedad
+                v-for="propiedad in propiedadesCollecction"
+                :key="propiedad.id"
+                :propiedad="propiedad"
+            />
+        </v-row>
+    </v-card>
+
 </template>
