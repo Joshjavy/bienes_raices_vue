@@ -1,25 +1,23 @@
 <script setup>
 import { watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute,useRouter } from 'vue-router'
 import { useFirestore, useDocument } from 'vuefire'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useField, useForm } from 'vee-validate'
 import "leaflet/dist/leaflet.css";
-import {
-    LMap,
-    LTileLayer,
-    LMarker
-} from "@vue-leaflet/vue-leaflet";
+import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet";
+
 import useImage from '@/composables/useImage'
 import useLocationMap from '@/composables/useLocationMap'
 import { validationSchema } from '@/validation/propiedadSchema'
 
 const route = useRoute()
+const router = useRouter()
 
 const items = [1, 2, 3, 4, 5]
 
 const { url, uploadImage, image } = useImage()
-const { zoom, center, pin } = useLocationMap()
+const { zoom,center,pin} = useLocationMap()
 
 const { handleSubmit } = useForm({ validationSchema });
 
@@ -48,9 +46,19 @@ watch(propiedad, (propiedad) => {
     center.value = propiedad.ubicacion
 })
 
+console.log(propiedad)
 
+const submit = handleSubmit(async values => {
 
-const submit = handleSubmit(values => {
+    const {imagen,...propiedad} = values
+    if(image.value){
+        console.log('hay imagen')
+    }else{
+        const data = {...propiedad,ubicacion: center.value,}
+        await updateDoc(docRef,data)
+    }
+
+    router.push({name: 'admin-propiedades'})
 
 })
 
@@ -117,10 +125,20 @@ const submit = handleSubmit(values => {
             <h2 class="font-weight-bold text-center my-5">Ubicación</h2>
             <div class="pb-10">
                 <div style="height:600px">
-                    <LMap v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
-                        <LMarker :lat-lng="center" draggable @moveend="pin" />
-                        <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"></LTileLayer>
-                    </LMap>
+                    <LMap 
+                            v-model:zoom="zoom" 
+                            :center="center"
+                            :use-global-leaflet="false"
+                        >
+                        <LMarker
+                            :lat-lng="center"
+                            draggable
+                            @moveend="pin"
+                        />
+                        <LTileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        ></LTileLayer>
+                        </LMap>
                 </div>
             </div>
 
