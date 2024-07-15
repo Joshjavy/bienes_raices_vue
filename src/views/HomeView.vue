@@ -1,7 +1,7 @@
 <script setup>
     import usePropiedades from '@/composables/usePropiedades'
     import Propiedad from '@/components/Propiedad.vue'
-    const { propiedadesCollecction } = usePropiedades()
+    const { propiedadesCollecction,priceProperty } = usePropiedades()
 </script>
 
 <template>
@@ -13,6 +13,7 @@
                 v-for="propiedad in propiedadesCollecction"
                 :key="propiedad.id"
                 :propiedad="propiedad"
+                :price="priceProperty"
             />
         </v-row>
     </v-card>
