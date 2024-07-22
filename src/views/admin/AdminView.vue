@@ -1,7 +1,7 @@
 <script setup>
     import usePropiedades from '@/composables/usePropiedades'
     import { priceProperty } from '@/helpers'
-    const { propiedadesCollecction } = usePropiedades()
+    const { propiedadesCollecction,deleteItem } = usePropiedades()
 </script>
 <template>
     <h2 class="text-center text-h3 my-5 font-weight-bold">Admin Panel</h2>
@@ -37,6 +37,7 @@
                     <v-btn 
                         color="red-darken-3"
                         variant="flat"
+                        @click="deleteItem(propiedad.id)"
                     >
                         Eliminar
                     </v-btn>
