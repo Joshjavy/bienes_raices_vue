@@ -37,7 +37,7 @@
                     <v-btn 
                         color="red-darken-3"
                         variant="flat"
-                        @click="deleteItem(propiedad.id)"
+                        @click="deleteItem(propiedad.id, propiedad.image)"
                     >
                         Eliminar
                     </v-btn>
